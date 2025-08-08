@@ -10,15 +10,23 @@ internal class GameFunctionality
     int Second_Number;
     int UserAnswer;
 
-    internal void PlayGame(Enums.MathOperation mathOperation)
+    internal void PlayGame(Enums.MathOperation mathOperation, Enums.GameDifficulty gameDifficulty)
     {
         GameWon = false;
 
-        (First_Number, Second_Number) = Helpers.GenerateNumber(first_num_max_range: 101, second_num_max_range: 101);
+        int max_range = gameDifficulty switch
+        {
+            Enums.GameDifficulty.Easy => 11,
+            Enums.GameDifficulty.Medium => 51,
+            Enums.GameDifficulty.Hard => 101,
+            _ => throw new NotImplementedException()
+        };
+
+        (First_Number, Second_Number) = Helpers.GenerateNumber(first_num_max_range: max_range, second_num_max_range: max_range);
 
         while (First_Number % Second_Number != 0 && mathOperation == Enums.MathOperation.Division)
         {
-            (First_Number, Second_Number) = Helpers.GenerateNumber(first_num_max_range: 101, second_num_max_range: 9);
+            (First_Number, Second_Number) = Helpers.GenerateNumber(first_num_max_range: max_range, second_num_max_range: max_range);
         }
 
         OperationSymbol = mathOperation switch

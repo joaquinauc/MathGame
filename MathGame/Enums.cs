@@ -17,4 +17,11 @@ internal class Enums
         StartGame,
         Score,
     }
+
+    internal enum GameDifficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+    }
 }
