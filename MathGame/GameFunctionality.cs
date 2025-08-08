@@ -1,4 +1,6 @@
-﻿namespace MathGame;
+﻿using System.Timers;
+
+namespace MathGame;
 
 // This class contains the core functionality of the math game, including playing the game and showing the score.
 
@@ -9,6 +11,10 @@ internal class GameFunctionality
     int First_Number;
     int Second_Number;
     int UserAnswer;
+    int TimerInSeconds = 0;
+    int TimerInMinutes = 0;
+
+    private static System.Timers.Timer? aTimer;
 
     internal void PlayGame(Enums.MathOperation mathOperation, Enums.GameDifficulty gameDifficulty)
     {
@@ -38,8 +44,14 @@ internal class GameFunctionality
             _ => throw new NotImplementedException()
         };
 
-        UserAnswer = Helpers.AskForAnswer((First_Number, Second_Number), OperationSymbol);
         
+        SetTimer();
+
+        UserAnswer = Helpers.AskForAnswer((First_Number, Second_Number), OperationSymbol);
+        aTimer.Stop();
+
+        aTimer.Dispose();
+
         int correctAnswer = mathOperation switch
         {
             Enums.MathOperation.Addition => First_Number + Second_Number,
@@ -80,11 +92,33 @@ internal class GameFunctionality
             }
 
             gamesPlayed++;
-            
+
+            string zero = game.TimerInSeconds < 10 ? "0" : "";
+
             Console.WriteLine($"Operation: {game.First_Number} {game.OperationSymbol} {game.Second_Number} = {game.UserAnswer}");
-            Console.WriteLine($"Result: {veredict} | Score: {score}/{gamesPlayed}\n");
+            Console.WriteLine($"Result: {veredict} | Score: {score}/{gamesPlayed}");
+            Console.WriteLine($"Time taken: {game.TimerInMinutes}:{zero}{game.TimerInSeconds}\n");
         }
 
         Console.ReadLine();
+    }
+
+    private void SetTimer()
+    { 
+        aTimer = new System.Timers.Timer(1000);
+        aTimer.Elapsed += OnTimedEvent;
+        aTimer.AutoReset = true;
+        aTimer.Enabled = true;
+    }
+
+    private void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+        TimerInSeconds++;
+
+        if (TimerInSeconds >= 60)
+        {
+            TimerInMinutes++;
+            TimerInSeconds = 0;
+        }
     }
 }
