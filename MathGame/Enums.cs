@@ -10,6 +10,7 @@ internal class Enums
         Subtraction,
         Multiplication,
         Division,
+        RandomGame,
     }
 
     internal enum GameState

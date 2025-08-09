@@ -27,12 +27,18 @@ internal static class GameInterface
                     .Title("Select a math operation:")
                     .AddChoices(Enum.GetValues<MathOperation>()));
 
-                var difficultyChoice = AnsiConsole.Prompt(
+                if (operationChoice != MathOperation.RandomGame)
+                {
+                    var difficultyChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<GameDifficulty>()
                     .Title("Select a math operation:")
                     .AddChoices(Enum.GetValues<GameDifficulty>()));
-
-                gameFunctionality.PlayGame(operationChoice, difficultyChoice);
+                    gameFunctionality.PlayGame(operationChoice, difficultyChoice);
+                }
+                else
+                {
+                    gameFunctionality.PlayGame(operationChoice);
+                }
 
             }
             else

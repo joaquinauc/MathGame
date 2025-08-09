@@ -16,9 +16,16 @@ internal class GameFunctionality
 
     private static System.Timers.Timer? aTimer;
 
-    internal void PlayGame(Enums.MathOperation mathOperation, Enums.GameDifficulty gameDifficulty)
+    internal void PlayGame(Enums.MathOperation mathOperation, Enums.GameDifficulty gameDifficulty = Enums.GameDifficulty.Easy)
     {
         GameWon = false;
+
+        // If the user selected RandomGame, we randomly select a math operation and game difficulty.
+        if (mathOperation == Enums.MathOperation.RandomGame)
+        {
+            mathOperation = Helpers.GetRandomEnumValue<Enums.MathOperation>();
+            gameDifficulty = Helpers.GetRandomEnumValue<Enums.GameDifficulty>();
+        }
 
         int max_range = gameDifficulty switch
         {

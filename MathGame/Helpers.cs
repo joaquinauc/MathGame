@@ -3,7 +3,6 @@
 namespace MathGame;
 
 // This class contains helper methods for generating random numbers, validating user input, and managing game history.
-
 internal static class Helpers
 {
     private static readonly Random _random = new();
@@ -40,4 +39,12 @@ internal static class Helpers
     {
         ScoreList.Add(gameFunctionality);
     }
+
+    internal static RandomEnum GetRandomEnumValue<RandomEnum>() where RandomEnum : struct, Enum 
+        // struct ensures that the type is a value type and Enum ensures it is an enumeration.
+    {
+        var values = Enum.GetValues<RandomEnum>();
+        return values[_random.Next(values.Length)];
+    }
+
 }
